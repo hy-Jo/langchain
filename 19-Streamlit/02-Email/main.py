@@ -10,11 +10,13 @@ from langchain_openai import ChatOpenAI
 from langchain_community.utilities import SerpAPIWrapper
 from langchain_teddynote.prompts import load_prompt
 
+load_dotenv()
 
 # 검색을 위한 API KEY 설정
-os.environ["SERPAPI_API_KEY"] = (
-    "e76de14ee240e0051ed8bb05d5db568dd1dc9cfcaa2b51fd83613829a85bf244"
-)
+
+import os
+
+os.environ["SERPAPI_API_KEY"] = "ac0ed48eb13704c375fadebb567a395a0a441ab72f0a6873068513736d65ef49"
 
 
 # 이메일 본문으로부터 주요 엔티티 추출
