@@ -11,7 +11,7 @@ from langchain_teddynote.prompts import load_prompt
 from pydantic import BaseModel, Field
 
 
-
+load_dotenv()
 
 # 이메일 본문으로부터 주요 엔티티 추출
 class EmailSummary(BaseModel):
@@ -22,9 +22,6 @@ class EmailSummary(BaseModel):
     summary: str = Field(description="메일 본문을 요약한 텍스트")
     date: str = Field(description="메일 본문에 언급된 미팅 날짜와 시간")
 
-
-# API KEY 정보로드
-load_dotenv()
 
 st.title("Email 요약기 💬")
 
