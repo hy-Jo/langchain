@@ -11,8 +11,6 @@ from langchain_teddynote.prompts import load_prompt
 from pydantic import BaseModel, Field
 
 
-
-
 # 이메일 본문으로부터 주요 엔티티 추출
 class EmailSummary(BaseModel):
     person: str = Field(description="메일을 보낸 사람")
