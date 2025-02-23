@@ -30,7 +30,7 @@ if not os.path.exists(".cache/files"):
 if not os.path.exists(".cache/embeddings"):
     os.mkdir(".cache/embeddings")
 
-st.title("PDF 기반 QA💬")
+st.title("API Spec💬")
 
 #처음 1번만 실행 하기 위한 코드
 if "messages" not in st.session_state:
@@ -43,7 +43,7 @@ if "chain" not in st.session_state:
 with st.sidebar:
      #초기화 버튼 생성
     clear_btn = st.button("대화내용 초기화")
-    uploaded_filess = st.file_uploader("파일 업로드",  accept_multiple_files=True, type=["PDF"])
+    uploaded_files = st.file_uploader("파일 업로드",  accept_multiple_files=True, type=["PDF"])
     selected_model= st.selectbox(
         "LLM 선택", ["gpt-4o", "gpt-4-turbo", "gpt-4o-mini"], index=0
         )
@@ -112,9 +112,9 @@ def create_chain(retriever, model_name="gpt-4o"):
     )
     return chain
 
-if uploaded_filess:
+if uploaded_files:
     #파일 업로드 후 retriever 생성(오래걸릴 예정)
-    retriever = embed_files(uploaded_filess)
+    retriever = embed_files(uploaded_files)
     chain = create_chain(retriever, model_name=selected_model)
     st.session_state["chain"] = chain
 

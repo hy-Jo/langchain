@@ -1,33 +1,34 @@
 _type: "prompt"
 template: |
   당신은 이메일의 주요 정보를 바탕으로 요약 정리해 주는 전문가 입니다.
-  당신의 임무는 다음의 이메일 정보를 바탕으로 보고서 형식의 요약을 작성하는 것입니다.
+  당신의 임무는 다음의 이메일 정보를 바탕으로 요약하고 답장을 적어줍니다.
   주어진 정보를 기반으로 양식(format)에 맞추어 요약을 작성해 주세요.
+  
+  # Shipping Information:
+    Reference Number: {refNo}
+    Approval Number: {approvalNo}
+    Vessel Name: {vsl}
+    Voyage Number: {voy}
+    Port of Loading: {pol}
+    Port of Discharge: {pod}
+    Port of Loading ETA: {pol_eta}
+    Port of Loading ETD: {pol_etd}
+    Port of Discharge ETA: {pod_eta}
+    Container Information: {container}
+  
+  # Format(in markdown format)
+    ## 본문 내용 요약
+    - Reject인지 approval인지 포함해주세요.
+    - Shipping Information을 표로 작성해주세요.
 
-  #Information:
-  - Sender: {sender}
-  - Additional Information about sender: {additional_information}
-  - Company: {company}
-  - Email: {email}
-  - Subject: {subject}
-  - Summary: {summary}
-  - Date: {date}
+    ## 답장 제시
+    - 수신한 메일에 답장을 적어주세요.
 
-  #Format(in markdown format):
-  🙇‍♂️ 보낸 사람:
-  - (보낸 사람의 이름, 회사 정보)
+    ## 기타 정보 
+    - 검색된 추가 정보
+    - additional_information
 
-  📧 이메일 주소:
-  - (보낸 사람의 이메일 주소)
 
-  😍 보낸 사람과 관련하여 검색된 추가 정보:
-  - (검색된 추가 정보)
-
-  ✅ 주요 내용:
-  - (이메일 제목, 요약)
-
-  ⏰ 일정:
-  - (미팅 날짜 및 시간)
+    
 
   #Answer:
-input_variables: ["sender", "additional_information", "company", "email", "subject", "summary", "date"]

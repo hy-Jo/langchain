@@ -13,16 +13,20 @@ from pydantic import BaseModel, Field
 
 load_dotenv()
 
+os.environ["SERPAPI_API_KEY"] = "84c62428fd3158ca5276c4c071cfc0350a8dc9932954a7f0514a7d250928269d"
+
 # 이메일 본문으로부터 주요 엔티티 추출
 class EmailSummary(BaseModel):
-    person: str = Field(description="메일을 보낸 사람")
-    company: str = Field(description="메일을 보낸 사람의 회사 정보")
-    email: str = Field(description="메일을 보낸 사람의 이메일 주소")
-    subject: str = Field(description="메일 제목")
-    summary: str = Field(description="메일 본문을 요약한 텍스트")
-    date: str = Field(description="메일 본문에 언급된 미팅 날짜와 시간")
-
-
+    refNo: str = Field(description="파트너 레퍼런스 번호")
+    approvalNo: str = Field(description="Approval 번호")
+    vsl: str = Field(description="Vessel Name (선박 이름)")
+    voy: str = Field(description="Voyage Number (항차)")
+    pol: str = Field(description="Port of Loading (출발 항구)")
+    pod: str = Field(description="Port of Discharge (도착 항구)")
+    pol_eta: str = Field(description="Port of Loading ETA (출발 항구 예상 도착일)")
+    pol_etd: str = Field(description="Port of Loading ETD (출발 항구 예상 출항일)")
+    pod_eta: str = Field(description="Port of Discharge ETA (도착 항구 예상 도착일)")
+    container: str = Field(description="Container 정보")
 st.title("Email 요약기 💬")
 
 
@@ -109,10 +113,10 @@ if user_input:
     # email 에서 주요 정보를 추출하는 체인을 실행
     answer = email_chain.invoke({"email_conversation": user_input})
 
-    # 2) 보낸 사람의 추가 정보 수집(검색)
+    # 2) 추가 정보 수집(검색)
     params = {"engine": "google", "gl": "kr", "hl": "ko", "num": "3"}  # 검색 파라미터
     search = SerpAPIWrapper(params=params)  # 검색 객체 생성
-    search_query = f"{answer.person} {answer.company} {answer.email}"  # 검색 쿼리
+    search_query = f"{answer.pod}"  # 검색 쿼리
     search_result = search.run(search_query)  # 검색 실행
     search_result = eval(search_result)  # list 형태로 변환
 
@@ -122,13 +126,17 @@ if user_input:
     # 3) 이메일 요약 리포트 생성
     report_chain = create_report_chain()
     report_chain_input = {
-        "sender": answer.person,
-        "additional_information": search_result_string,
-        "company": answer.company,
-        "email": answer.email,
-        "subject": answer.subject,
-        "summary": answer.summary,
-        "date": answer.date,
+        "refNo": answer.refNo,
+        "approvalNo": answer.approvalNo,
+        "vsl": answer.vsl,
+        "voy": answer.voy,
+        "pol": answer.pol,
+        "pod": answer.pod,
+        "pol_eta": answer.pol_eta,
+        "pol_etd": answer.pol_etd,
+        "pod_eta": answer.pod_eta,
+        "container": answer.container,
+        "additional_information": search_result_string
     }
 
     # 스트리밍 호출
